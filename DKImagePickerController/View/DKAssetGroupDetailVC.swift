@@ -20,11 +20,18 @@ internal class DKAssetGroupDetailVC: UICollectionViewController, DKGroupDataMana
     class DKImageCameraCell: UICollectionViewCell {
         
         var didCameraButtonClicked: (() -> Void)?
+        var cameraButton: UIButton!
+
+        var enabled = true {
+            didSet {
+                cameraButton?.alpha = enabled ? 1 : 0.25
+            }
+        }
         
         override init(frame: CGRect) {
             super.init(frame: frame)
             
-            let cameraButton = UIButton(frame: frame)
+            cameraButton = UIButton(frame: frame)
             cameraButton.addTarget(self, action: "cameraButtonClicked", forControlEvents: .TouchUpInside)
             cameraButton.setImage(DKImageResource.cameraImage(), forState: .Normal)
             cameraButton.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
@@ -38,6 +45,7 @@ internal class DKAssetGroupDetailVC: UICollectionViewController, DKGroupDataMana
         }
         
         func cameraButtonClicked() {
+            if !enabled {return}
             if let didCameraButtonClicked = self.didCameraButtonClicked {
                 didCameraButtonClicked()
             }
@@ -202,6 +210,8 @@ internal class DKAssetGroupDetailVC: UICollectionViewController, DKGroupDataMana
 	private var groupListVC: DKAssetGroupListVC!
     
     private var hidesCamera :Bool = false
+    
+    private weak var cameraCell: DKImageCameraCell?
 	
     convenience init() {
         let layout = DKAssetGroupGridLayout()
@@ -295,6 +305,12 @@ internal class DKAssetGroupDetailVC: UICollectionViewController, DKGroupDataMana
 		
 		self.navigationItem.titleView = self.selectGroupButton
 	}
+
+    private func updateCameraCell() {
+        guard let imagePickerController = self.imagePickerController else {return}
+        if imagePickerController.allowsCaptureWhenSelected {return}
+        self.cameraCell?.enabled = imagePickerController.selectedAssets.isEmpty
+    }
     
     func showGroupSelector() {
         DKPopoverViewController.popoverViewController(self.groupListVC, fromView: self.selectGroupButton)
@@ -311,6 +327,7 @@ internal class DKAssetGroupDetailVC: UICollectionViewController, DKGroupDataMana
             }
         }
 
+        cameraCell = cell
         return cell
 	}
 	
@@ -388,6 +405,7 @@ internal class DKAssetGroupDetailVC: UICollectionViewController, DKGroupDataMana
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 		let selectedAsset = (collectionView.cellForItemAtIndexPath(indexPath) as? DKAssetCell)?.asset
 		self.imagePickerController?.selectedImage(selectedAsset!)
+        self.updateCameraCell()
         
 		let cell = collectionView.cellForItemAtIndexPath(indexPath) as! DKAssetCell
 		cell.checkView.checkLabel.text = "\(self.imagePickerController!.selectedAssets.count)"
@@ -414,6 +432,7 @@ internal class DKAssetGroupDetailVC: UICollectionViewController, DKGroupDataMana
 			}
 			
 			self.imagePickerController?.unselectedImage(removedAsset)
+            self.updateCameraCell()
 		}
     }
 	

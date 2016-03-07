@@ -91,6 +91,9 @@ public var autoDownloadWhenAssetIsInCloud = true
 /// Determines whether or not the rotation is enabled.
 public var allowsLandscape = false
 
+/// Whether to allow capturing a new image/video when other assets are already selected
+public var allowsCaptureWhenSelected = true
+
 /// The callback block is executed when user pressed the cancel button.
 public var didCancel: (() -> Void)?
 public var showsCancelButton = false

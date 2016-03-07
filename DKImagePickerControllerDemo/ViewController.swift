@@ -41,6 +41,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //			pickerController.showsCancelButton = true
 //			pickerController.showsEmptyAlbums = false
 //			pickerController.defaultAssetGroup = PHAssetCollectionSubtype.SmartAlbumFavorites
+//			pickerController.allowsCaptureWhenSelected = true
 			
 			// Clear all the selected assets if you used the picker controller as a single instance.
 //			pickerController.defaultSelectedAssets = nil
