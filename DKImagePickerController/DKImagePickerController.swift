@@ -96,6 +96,10 @@ public class DKImagePickerController: UINavigationController {
 	
 	/// Determines whether or not the rotation is enabled.
 	public var allowsLandscape = false
+    
+    /// View controller to handle capturing photos/videos. If set, will launch this
+    /// instead of the built-in DKCamera.
+    public var createCaptureController: (() -> UIViewController?)?
 	
 	/// The callback block is executed when user pressed the cancel button.
 	public var didCancel: (() -> Void)?
@@ -260,7 +264,15 @@ public class DKImagePickerController: UINavigationController {
 	}
 	
 	internal func presentCamera() {
-		self.presentViewController(self.createCamera(), animated: true, completion: nil)
+        var cameraController: UIViewController?
+        if let createCaptureController = self.createCaptureController {
+            cameraController = createCaptureController()
+            guard cameraController != nil else {return}
+        } else {
+            cameraController = self.createCamera()
+        }
+        
+		self.presentViewController(cameraController!, animated: true, completion: nil)
 	}
 	
 	internal func dismiss() {

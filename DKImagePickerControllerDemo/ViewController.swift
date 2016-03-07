@@ -8,6 +8,7 @@
 
 import UIKit
 import MediaPlayer
+import MobileCoreServices
 import Photos
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -53,6 +54,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.assets = assets
                 self.previewView?.reloadData()
             }
+            
+//            pickerController.createCaptureController = { () in
+//                let captureController = UIImagePickerController()
+//                captureController.sourceType = .Camera
+//                captureController.mediaTypes = [kUTTypeMovie as String]
+//                captureController.delegate = self
+//                return captureController
+//            }
 			
 			if UI_USER_INTERFACE_IDIOM() == .Pad {
 				pickerController.modalPresentationStyle = .FormSheet;
@@ -178,3 +187,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 }
 
+//extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+//        print("Picked media: \(info)")
+//        self.dismissViewControllerAnimated(true, completion: nil)
+//    }
+//    
+//    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+//        print("Cancelled picker")
+//    }
+//}

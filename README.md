@@ -59,7 +59,7 @@ self.presentViewController(pickerController, animated: true) {}
 ```swift
 /// Forces selection of tapped image immediatly.
 public var singleSelect = false
-    
+
 /// The maximum count of assets which the user will be able to select.
 public var maxSelectableCount = 999
 
@@ -93,6 +93,10 @@ public var allowsLandscape = false
 
 /// Whether to allow capturing a new image/video when other assets are already selected
 public var allowsCaptureWhenSelected = true
+
+/// View controller to handle capturing photos/videos. If set, will launch this
+/// instead of the built-in DKCamera.
+public var createCaptureController: (() -> UIViewController)?
 
 /// The callback block is executed when user pressed the cancel button.
 public var didCancel: (() -> Void)?
@@ -140,7 +144,7 @@ pickerController.sourceType = .Camera
     pod 'DKImagePickerController'
     use_frameworks!
     ```
-* Importing it into your Objective-C file: 
+* Importing it into your Objective-C file:
 
     ```objective-c
     #import <DKImagePickerController/DKImagePickerController-Swift.h>
@@ -151,7 +155,7 @@ pickerController.sourceType = .Camera
 > See also:[Swift and Objective-C in the Same Project](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html)
 
 * Drag and drop the [DKCamera][DKCamera] and `DKImageManager` and `DKImagePickerController` to your project
-* Importing it into your Objective-C file: 
+* Importing it into your Objective-C file:
 
     ```objective-c
     #import "YourProductModuleName-Swift.h"
@@ -174,7 +178,7 @@ pickerController.defaultSelectedAssets = @[];
  [pickerController setDidSelectAssets:^(NSArray * __nonnull assets) {
      NSLog(@"didSelectAssets");
  }];
- 
+
  [self presentViewController:pickerController animated:YES completion:nil];
 ```
 
@@ -192,7 +196,7 @@ You can merge your branch into the `develop` branch. Any Pull Requests to be wel
 
 ## Change Log
 
-> In `3.0.4`, I've updated the `fetchImage...` interface:  
+> In `3.0.4`, I've updated the `fetchImage...` interface:
 > the `completeBlock: (image: UIImage?) -> Void` was changed to `completeBlock: (image: UIImage?, info: [NSObject : AnyObject]?) -> Void`
 > so you need to change:
 ```swift
@@ -234,8 +238,8 @@ asset.fetchImageWithSize(size, completeBlock: { image, info in
 > [More logs...](https://github.com/zhangao0086/DKImagePickerController/blob/develop/CHANGELOG.md)
 
 ## Special Thanks
-Thanks for [scottdelly][scottdelly]'s [contribution][scottdellyCon] and [performance improvement][scottdellyCon1]!  
-Thanks for [LucidityDesign][LucidityDesign]'s [contribution][LucidityDesignCon]!  
+Thanks for [scottdelly][scottdelly]'s [contribution][scottdellyCon] and [performance improvement][scottdellyCon1]!
+Thanks for [LucidityDesign][LucidityDesign]'s [contribution][LucidityDesignCon]!
 Thanks for [AnthonyMDev][AnthonyMDev]'s [contribution][scottdellyCon]!
 
 ## License
