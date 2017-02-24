@@ -222,6 +222,10 @@ open class DKImagePickerController : UINavigationController {
         }
     }
     
+    /// View controller to handle capturing photos/videos. If set, will launch this
+    /// instead of the built-in DKCamera.
+    public var createCaptureController: (() -> UIViewController?)?
+    
     public var selectedAssets = [DKAsset]()
     
     public convenience init() {
